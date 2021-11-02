@@ -1,6 +1,6 @@
 //Digital output pins for turning motors 1 and 2 CW and CCW
-int motor1CW_OUTPUT_PIN = 2;
-int motor1CCW_OUTPUT_PIN = 3;
+int motor1CW_OUTPUT_PIN = 6;
+int motor1CCW_OUTPUT_PIN = 7;
 int motor2CW_OUTPUT_PIN = 4;
 int motor2CCW_OUTPUT_PIN = 5;
 
@@ -16,6 +16,7 @@ const int motor1CW = 1;
 const int motor1CCW = 2;
 const int motor2CW = 3;
 const int motor2CCW = 4;
+const int DELAY = 500;
 
 //Function that determines if a button was pressed
 void determineMotorID() {
@@ -34,56 +35,64 @@ void determineMotorID() {
 }
 
 void setup() {
+  Serial.begin(9600);
   pinMode(motor1CW_OUTPUT_PIN, OUTPUT);
   pinMode(motor1CCW_OUTPUT_PIN, OUTPUT);
   pinMode(motor2CW_OUTPUT_PIN, OUTPUT);
   pinMode(motor2CCW_OUTPUT_PIN, OUTPUT);
 
   digitalWrite(motor1CW_OUTPUT_PIN, LOW);
+  delay(DELAY);
   digitalWrite(motor1CCW_OUTPUT_PIN, LOW);
+  delay(DELAY);
   digitalWrite(motor2CW_OUTPUT_PIN, LOW);
+  delay(DELAY);
   digitalWrite(motor2CCW_OUTPUT_PIN, LOW);
+  delay(DELAY);
 }
 
 void loop() {
   switch (motorID) {
     default:
       determineMotorID(); //If no button is pressed, keep looping until a button is pressed
+      //Serial.println(digitalRead(motor1CW_OUTPUT_PIN)); //testing
+      //Serial.println(digitalRead(motor1CCW_OUTPUT_PIN)); //testing
+      Serial.println(motorID);
     case (motor1CW):
       digitalWrite(motor1CW_OUTPUT_PIN, HIGH);
       while (true) {
         if (digitalRead(motor1CW_INPUT_PIN) == LOW) {
           digitalWrite(motor1CW_OUTPUT_PIN, LOW);
+          motorID = 0;
           break;
         }
       }
-      motorID = 0;
     case (motor1CCW):
       digitalWrite(motor1CCW_OUTPUT_PIN, HIGH);
       while (true) {
         if (digitalRead(motor1CCW_INPUT_PIN) == LOW) {
           digitalWrite(motor1CCW_OUTPUT_PIN, LOW);
+          motorID = 0;
           break;
         }
       }
-      motorID = 0;
     case (motor2CW):
       digitalWrite(motor2CW_OUTPUT_PIN, HIGH);
       while (true) {
         if (digitalRead(motor2CW_INPUT_PIN) == LOW) {
           digitalWrite(motor2CW_OUTPUT_PIN, LOW);
+          motorID = 0;
           break;
         }
       }
-      motorID = 0;
     case (motor2CCW):
       digitalWrite(motor2CCW_OUTPUT_PIN, HIGH);
       while (true) {
         if (digitalRead(motor2CCW_INPUT_PIN) == LOW) {
           digitalWrite(motor2CCW_OUTPUT_PIN, LOW);
+          motorID = 0;
           break;
         }
       }
-      motorID = 0;
   }
 }
